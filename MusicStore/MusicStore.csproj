@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20180220163808_PropertyNameChange_NameToTitle.cs" />
+    <Compile Remove="Migrations\20180220163808_PropertyNameChange_NameToTitle.Designer.cs" />
+    <Compile Remove="Migrations\20180220164231_Album_PropertyNameChange_NameToTitle.cs" />
+    <Compile Remove="Migrations\20180220164231_Album_PropertyNameChange_NameToTitle.Designer.cs" />
+    <Compile Remove="Migrations\20180220170645_Album_PropertyNameChange_NameToTitle.cs" />
+    <Compile Remove="Migrations\20180220170645_Album_PropertyNameChange_NameToTitle.Designer.cs" />
+    <Compile Remove="Migrations\20180221093335_ModelUpdate.cs" />
+    <Compile Remove="Migrations\20180221093335_ModelUpdate.Designer.cs" />
+    <Compile Remove="Migrations\20180221103818_Test.cs" />
+    <Compile Remove="Migrations\20180221103818_Test.Designer.cs" />
+    <Compile Remove="Migrations\20180221105333_Test.cs" />
+    <Compile Remove="Migrations\20180221105333_Test.Designer.cs" />
+    <Compile Remove="Migrations\20180221112742_Test.cs" />
+    <Compile Remove="Migrations\20180221112742_Test.Designer.cs" />
+    <Compile Remove="Migrations\20180221121121_InitialCreate.cs" />
+    <Compile Remove="Migrations\20180221121121_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20180221121326_Test.cs" />
+    <Compile Remove="Migrations\20180221121326_Test.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
+  </ItemGroup>
+
+</Project>

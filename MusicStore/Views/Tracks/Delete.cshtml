@@ -1,0 +1,36 @@
+﻿@model MusicStore.Models.Track
+
+@{
+    ViewData["Title"] = "Delete track";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr class="hr-title" />
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Album.Artist.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Album.Artist.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Album)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Album.Title)
+        </dd>
+    </dl>
+</div>
+<form asp-action="Delete">
+    <input type="hidden" asp-for="ID" />
+    <input type="submit" value="Delete" class="btn btn-default" />
+    <input type="button" value="Cancel" class="btn btn-default" onclick="GoBack()" />
+</form>
+

@@ -1,0 +1,104 @@
+﻿@model MusicStore.ViewModels.AlbumTrackViewModel
+
+@{
+    ViewData["Title"] = "Album details";
+}
+
+<div class="container-flex" style="align-items:center">
+    <div class="container-flex-item-left">
+        <h3>Album</h3>
+    </div>
+    <div class="container-flex-item-right" style="text-align:right; padding:4px">
+        <button class="btn-link-glyphicon" aria-label="Back" onclick="GoBack()">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true" />
+        </button>
+        <button class="btn-link-glyphicon" aria-label="Edit" onclick="location.href='@Url.Action("Edit", new { id = Model.Album.ID })'">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true" />
+        </button>
+        <button class="btn-link-glyphicon" aria-label="Delete" onclick="location.href='@Url.Action("Delete", new { id = Model.Album.ID })'">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true" />
+        </button>
+        <button class="btn-link-glyphicon" aria-label="Albums list" onclick="location.href='@Url.Action("Index")'">
+            <span class="glyphicon glyphicon-list" aria-hidden="true" />
+        </button>
+    </div>
+</div>
+<hr />
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Album.Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Album.Title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Album.Artist)
+        </dt>
+        <dd>
+            <a class="a-list" href="@Url.Action("Details", "Artists", new { id = Model.Album.ArtistID })">
+                @Html.DisplayFor(model => model.Album.Artist.Name)
+            </a>
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Album.ReleaseDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Album.ReleaseDate)
+        </dd>
+    </dl>
+</div>
+<hr />
+<div class="container-flex">
+    <div class="container-flex-item-left">
+        <h3 style="margin: 0px">Tracks</h3>
+    </div>
+    <div class="container-flex-item-right">
+        <table class="table table-bottom-bordered" style="margin: 0px">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => Model.Album.Tracks[0].Title)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var track in Model.Album.Tracks)
+                {
+                <tr>
+                    <td>
+                        <a class="a-list" href="@Url.Action("Details", "Tracks", new { id = track.ID })">
+                            @Html.DisplayFor(model => track.Title)
+                        </a>
+                    </td>
+                    <td style="text-align: right">
+                        <form asp-action="DeleteTrack" asp-route-id="@track.ID" class="inline">
+                            <button type="submit" class="btn-link-glyphicon" aria-label="Delete">
+                                <span class="glyphicon glyphicon-remove-circle" aria-hidden="true" />
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        <form asp-action="AddTrack">
+        <table class="table" style="margin:0px">
+            <tbody>
+                <tr>
+                    <td style="border: none">
+                        <input asp-for="Track.AlbumID" type="hidden" value="@Model.Album.ID" />
+                        <input asp-for="Track.Title" type="text" class="form-control-transparent" placeholder="New track" autocomplete="off" required />
+                    </td>
+                    <td style="border:none; text-align: right">
+                        <button type="submit" class="btn-link-glyphicon" aria-label="Add">
+                            <span class="glyphicon glyphicon-ok-circle" aria-hidden="true" />
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </form>
+    </div>
+</div>

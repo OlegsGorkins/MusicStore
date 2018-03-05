@@ -1,0 +1,90 @@
+﻿@model MusicStore.ViewModels.ArtistAlbumViewModel
+
+@{
+    ViewData["Title"] = "Artist details";
+}
+
+<div class="container-flex" style="align-items:center">
+    <div class="container-flex-item-left">
+        <h3>Album</h3>
+    </div>
+    <div class="container-flex-item-right" style="text-align:right; padding:4px">
+        <button class="btn-link-glyphicon" aria-label="Back" onclick="GoBack()">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true" />
+        </button>
+        <button class="btn-link-glyphicon" aria-label="Edit" onclick="location.href='@Url.Action("Edit", new { id = Model.Artist.ID })'">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true" />
+        </button>
+        <button class="btn-link-glyphicon" aria-label="Delete" onclick="location.href='@Url.Action("Delete", new { id = Model.Artist.ID })'">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true" />
+        </button>
+        <button class="btn-link-glyphicon" aria-label="Artists list" onclick="location.href='@Url.Action("Index")'">
+            <span class="glyphicon glyphicon-list" aria-hidden="true" />
+        </button>
+    </div>
+</div>
+<hr />
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Artist.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Artist.Name)
+        </dd>
+    </dl>
+</div>
+<hr />
+<div class="container-flex">
+    <div class="container-flex-item-left">
+        <h3 style="margin: 0px">Albums</h3>
+    </div>
+    <div class="container-flex-item-right">
+        <table class="table table-bottom-bordered" style="margin: 0px">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => Model.Album.Title)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var album in Model.Artist.Albums)
+                {
+                    <tr>
+                        <td>
+                            <a class="a-list" href="@Url.Action("Details", "Albums", new { id = album.ID })">
+                                @Html.DisplayFor(model => album.Title)
+                            </a>
+                        </td>
+                        <td style="text-align: right">
+                            <form asp-action="DeleteAlbum" asp-route-id="@album.ID" class="inline">
+                                <button type="submit" class="btn-link-glyphicon" aria-label="Delete">
+                                    <span class="glyphicon glyphicon-remove-circle" aria-hidden="true" />
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <form asp-action="AddAlbum">
+            <table class="table" style="margin:0px">
+                <tbody>
+                    <tr>
+                        <td style="border: none">
+                            <input asp-for="Album.ArtistID" type="hidden" value="@Model.Artist.ID" />
+                            <input asp-for="Album.Title" type="text" class="form-control-transparent" placeholder="New album" autocomplete="off" required />
+                        </td>
+                        <td style="border: none; text-align: right">
+                            <button type="submit" class="btn-link-glyphicon" aria-label="Add">
+                                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true" />
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>

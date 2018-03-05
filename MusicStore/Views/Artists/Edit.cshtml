@@ -1,0 +1,29 @@
+﻿@model MusicStore.Models.Artist
+
+@{
+    ViewData["Title"] = "Edit artist";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr class="hr-title" />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" required />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div>
+                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="button" value="Cancel" class="btn btn-default" onclick="GoBack()" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
