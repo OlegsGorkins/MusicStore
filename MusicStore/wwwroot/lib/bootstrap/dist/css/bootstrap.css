@@ -6824,4 +6824,12 @@ button.close {
     margin: 0px;
     margin-bottom: 10px;
 }
+.h4-th {
+    display:inline;
+    margin:0px;
+    font-weight:500;
+}
+.glyphicon-small {
+    font-size:15px;
+}
 /*# sourceMappingURL=bootstrap.css.map */

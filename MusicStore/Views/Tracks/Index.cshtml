@@ -9,13 +9,31 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                <h4 class="h4-th">@Html.DisplayNameFor(model => model.Title)</h4>
+                <button class="btn-link-glyphicon" aria-label="Sort ascending" onclick="location.href='@Url.Action("Index")'">
+                    <span class="glyphicon glyphicon-small glyphicon-triangle-bottom " aria-hidden="true" />
+                </button>
+                <button class="btn-link-glyphicon" aria-label="Sort descending" onclick="location.href='@Url.Action("Index", new { sortOrder = "titles_desc" })'">
+                    <span class="glyphicon glyphicon-small glyphicon-triangle-top" aria-hidden="true" />
+                </button>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Album.Artist)
+                <h4 class="h4-th">@Html.DisplayNameFor(model => model.Album.Artist)</h4>
+                <button class="btn-link-glyphicon" aria-label="Sort ascending" onclick="location.href='@Url.Action("Index", new { sortOrder = "artists_asc" })'">
+                    <span class="glyphicon glyphicon-small glyphicon-triangle-bottom " aria-hidden="true" />
+                </button>
+                <button class="btn-link-glyphicon" aria-label="Sort descending" onclick="location.href='@Url.Action("Index", new { sortOrder = "artists_desc" })'">
+                    <span class="glyphicon glyphicon-small glyphicon-triangle-top" aria-hidden="true" />
+                </button>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Album)
+                <h4 class="h4-th">@Html.DisplayNameFor(model => model.Album)</h4>
+                <button class="btn-link-glyphicon" aria-label="Sort ascending" onclick="location.href='@Url.Action("Index", new { sortOrder = "albums_asc" })'">
+                    <span class="glyphicon glyphicon-small glyphicon-triangle-bottom " aria-hidden="true" />
+                </button>
+                <button class="btn-link-glyphicon" aria-label="Sort descending" onclick="location.href='@Url.Action("Index", new { sortOrder = "albums_desc" })'">
+                    <span class="glyphicon glyphicon-small glyphicon-triangle-top" aria-hidden="true" />
+                </button>
             </th>
             <th></th>
         </tr>

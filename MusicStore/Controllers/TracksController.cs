@@ -20,13 +20,38 @@ namespace MusicStore.Controllers
         }
 
         // GET: Tracks
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
-            var musicStoreContext = _context.Tracks
+            var tracks = _context.Tracks
                 .Include(t => t.Album)
-                    .ThenInclude(a => a.Artist)
-                .AsNoTracking();
-            return View(await musicStoreContext.ToListAsync());
+                    .ThenInclude(a => a.Artist);
+
+            IOrderedQueryable<Track> tracksSorted;
+            
+            switch (sortOrder)
+            {
+                case "titles_desc":
+                    tracksSorted = tracks.OrderByDescending(t => t.Title);
+                    break;
+                case "artists_asc":
+                    tracksSorted = tracks.OrderBy(t => t.Album.Artist.Name);
+                    break;
+                case "artists_desc":
+                    tracksSorted = tracks.OrderByDescending(t => t.Album.Artist.Name);
+                    break;
+                case "albums_asc":
+                    tracksSorted = tracks.OrderBy(t => t.Album.Title);
+                    break;
+                case "albums_desc":
+                    tracksSorted = tracks.OrderByDescending(t => t.Album.Title);
+                    break;
+                default:
+                    tracksSorted = tracks.OrderBy(t => t.Title);
+                    break;
+            }
+
+            tracksSorted.AsNoTracking();
+            return View(await tracksSorted.ToListAsync());
         }
 
         // GET: Tracks/Details/5
