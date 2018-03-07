@@ -23,7 +23,9 @@ namespace MusicStore.Controllers
         // GET: Artists
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Artists.ToListAsync());
+            var musicStoreContext = _context.Artists
+                .AsNoTracking();
+            return View(await musicStoreContext.ToListAsync());
         }
 
         // GET: Artists/Details/5

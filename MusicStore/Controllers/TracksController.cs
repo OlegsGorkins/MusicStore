@@ -24,7 +24,8 @@ namespace MusicStore.Controllers
         {
             var musicStoreContext = _context.Tracks
                 .Include(t => t.Album)
-                .ThenInclude(a => a.Artist);
+                    .ThenInclude(a => a.Artist)
+                .AsNoTracking();
             return View(await musicStoreContext.ToListAsync());
         }
 

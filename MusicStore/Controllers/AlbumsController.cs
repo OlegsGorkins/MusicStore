@@ -22,7 +22,9 @@ namespace MusicStore.Controllers
         // GET: Albums
         public async Task<IActionResult> Index()
         {
-            var musicStoreContext = _context.Albums.Include(a => a.Artist);
+            var musicStoreContext = _context.Albums
+                .Include(a => a.Artist)
+                .AsNoTracking();
             return View(await musicStoreContext.ToListAsync());
         }
 
