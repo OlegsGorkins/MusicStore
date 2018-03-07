@@ -20,38 +20,38 @@ namespace MusicStore.Controllers
         }
 
         // GET: Tracks
-        public async Task<IActionResult> Index(string sortOrder)
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-            var tracks = _context.Tracks
+            IQueryable<Track> tracks = _context.Tracks
                 .Include(t => t.Album)
                     .ThenInclude(a => a.Artist);
 
-            IOrderedQueryable<Track> tracksSorted;
+            //IOrderedQueryable<Track> tracksSorted;
             
             switch (sortOrder)
             {
                 case "titles_desc":
-                    tracksSorted = tracks.OrderByDescending(t => t.Title);
+                    tracks = tracks.OrderByDescending(t => t.Title);
                     break;
                 case "artists_asc":
-                    tracksSorted = tracks.OrderBy(t => t.Album.Artist.Name);
+                    tracks = tracks.OrderBy(t => t.Album.Artist.Name);
                     break;
                 case "artists_desc":
-                    tracksSorted = tracks.OrderByDescending(t => t.Album.Artist.Name);
+                    tracks = tracks.OrderByDescending(t => t.Album.Artist.Name);
                     break;
                 case "albums_asc":
-                    tracksSorted = tracks.OrderBy(t => t.Album.Title);
+                    tracks = tracks.OrderBy(t => t.Album.Title);
                     break;
                 case "albums_desc":
-                    tracksSorted = tracks.OrderByDescending(t => t.Album.Title);
+                    tracks = tracks.OrderByDescending(t => t.Album.Title);
                     break;
                 default:
-                    tracksSorted = tracks.OrderBy(t => t.Title);
+                    tracks = tracks.OrderBy(t => t.Title);
                     break;
             }
 
-            tracksSorted.AsNoTracking();
-            return View(await tracksSorted.ToListAsync());
+            tracks.AsNoTracking();
+            return View(await tracks.ToListAsync());
         }
 
         // GET: Tracks/Details/5
