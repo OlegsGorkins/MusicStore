@@ -6765,8 +6765,11 @@ button.close {
 .container-flex-item-left {
     min-width: 148px;
 }
-.container-flex-item-right{
-    width:100%;
+.container-flex-item-right {
+    width:100%
+}
+.container-flex-item-push-right {
+    margin-left:auto
 }
 .container-flex + hr {
     margin-top:0px;
@@ -6824,10 +6827,11 @@ button.close {
     margin: 0px;
     margin-bottom: 10px;
 }
-.h4-th {
+.header-sortable-th {
     display:inline;
     margin:0px;
-    font-weight:500;
+    font-size:15px;
+    font-weight:bold;
 }
 .glyphicon-small {
     font-size:15px;

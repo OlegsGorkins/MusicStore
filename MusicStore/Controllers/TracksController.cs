@@ -26,28 +26,36 @@ namespace MusicStore.Controllers
                 .Include(t => t.Album)
                     .ThenInclude(a => a.Artist);
 
-            //IOrderedQueryable<Track> tracksSorted;
-            
-            switch (sortOrder)
+            if (!String.IsNullOrEmpty(searchString))
             {
-                case "titles_desc":
-                    tracks = tracks.OrderByDescending(t => t.Title);
-                    break;
-                case "artists_asc":
-                    tracks = tracks.OrderBy(t => t.Album.Artist.Name);
-                    break;
-                case "artists_desc":
-                    tracks = tracks.OrderByDescending(t => t.Album.Artist.Name);
-                    break;
-                case "albums_asc":
-                    tracks = tracks.OrderBy(t => t.Album.Title);
-                    break;
-                case "albums_desc":
-                    tracks = tracks.OrderByDescending(t => t.Album.Title);
-                    break;
-                default:
-                    tracks = tracks.OrderBy(t => t.Title);
-                    break;
+                tracks = tracks.Where(t => t.Title.Contains(searchString));
+            }
+
+            if (!String.IsNullOrEmpty(sortOrder))
+            {
+                switch (sortOrder)
+                {
+                    case "titles_asc":
+                        tracks = tracks.OrderBy(t => t.Title);
+                        break;
+                    case "titles_desc":
+                        tracks = tracks.OrderByDescending(t => t.Title);
+                        break;
+                    case "artists_asc":
+                        tracks = tracks.OrderBy(t => t.Album.Artist.Name);
+                        break;
+                    case "artists_desc":
+                        tracks = tracks.OrderByDescending(t => t.Album.Artist.Name);
+                        break;
+                    case "albums_asc":
+                        tracks = tracks.OrderBy(t => t.Album.Title);
+                        break;
+                    case "albums_desc":
+                        tracks = tracks.OrderByDescending(t => t.Album.Title);
+                        break;
+                    default:
+                        break;
+                }
             }
 
             tracks.AsNoTracking();

@@ -3,14 +3,37 @@
 @{
     ViewData["Title"] = "Tracks";
 }
-
-<h2>Tracks | <input type="button" value="Add new" class="btn btn-default" onclick="location.href='@Url.Action("Create")'" /></h2>
+<div class="container-flex" style="align-items:center; margin-top:10px">
+    <div class="container-flex-item-left" style="min-width:unset">
+        <h2 style="margin:unset">Tracks</h2>
+    </div>
+    <div class="container-flex-item-push-right" style="text-align:right">
+        <form asp-action="Index" method="get" class="input-group" style="max-width:380px">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" style="border-bottom-left-radius:unset" onclick="location.href='@Url.Action("Create")'">Add new</button>
+            </span>
+            <input type="text" class="form-control" name="searchString" placeholder="Search track" />
+            <span class="input-group-btn">
+                <button type="submit" class="btn btn-default" aria-label="Search">
+                    <span class="glyphicon glyphicon-small glyphicon-search" aria-hidden="true" />
+                </button>
+                <button type="button" class="btn btn-default" aria-label="Back" onclick="GoBack()">
+                    <span class="glyphicon glyphicon-small glyphicon-chevron-left" aria-hidden="true" />
+                </button>
+                <button type="button" class="btn btn-default" style="border-bottom-right-radius:unset" aria-label="Tracks list" onclick="location.href='@Url.Action("Index")'">
+                    <span class="glyphicon glyphicon-small glyphicon-list" aria-hidden="true" />
+                </button>
+            </span>
+        </form>
+    </div>
+</div>
+<hr class="hr-title" />
 <table class="table">
     <thead>
         <tr>
             <th>
-                <h4 class="h4-th">@Html.DisplayNameFor(model => model.Title)</h4>
-                <button class="btn-link-glyphicon" aria-label="Sort ascending" onclick="location.href='@Url.Action("Index")'">
+                <span class="header-sortable-th">@Html.DisplayNameFor(model => model.Title)</span>
+                <button class="btn-link-glyphicon" aria-label="Sort ascending" onclick="location.href='@Url.Action("Index", new { sortOrder = "titles_asc" })'">
                     <span class="glyphicon glyphicon-small glyphicon-triangle-bottom " aria-hidden="true" />
                 </button>
                 <button class="btn-link-glyphicon" aria-label="Sort descending" onclick="location.href='@Url.Action("Index", new { sortOrder = "titles_desc" })'">
@@ -18,7 +41,7 @@
                 </button>
             </th>
             <th>
-                <h4 class="h4-th">@Html.DisplayNameFor(model => model.Album.Artist)</h4>
+                <span class="header-sortable-th">@Html.DisplayNameFor(model => model.Album.Artist)</span>
                 <button class="btn-link-glyphicon" aria-label="Sort ascending" onclick="location.href='@Url.Action("Index", new { sortOrder = "artists_asc" })'">
                     <span class="glyphicon glyphicon-small glyphicon-triangle-bottom " aria-hidden="true" />
                 </button>
@@ -27,7 +50,7 @@
                 </button>
             </th>
             <th>
-                <h4 class="h4-th">@Html.DisplayNameFor(model => model.Album)</h4>
+                <span class="header-sortable-th">@Html.DisplayNameFor(model => model.Album)</span>
                 <button class="btn-link-glyphicon" aria-label="Sort ascending" onclick="location.href='@Url.Action("Index", new { sortOrder = "albums_asc" })'">
                     <span class="glyphicon glyphicon-small glyphicon-triangle-bottom " aria-hidden="true" />
                 </button>
