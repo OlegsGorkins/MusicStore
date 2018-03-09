@@ -6774,11 +6774,11 @@ button.close {
 .container-flex + hr {
     margin-top: 0px;
 }
-.container-pagination {
+.container-page-bottom {
     margin: 0px;
     margin-bottom: 10px;
 }
-.container-pagination + hr {
+.container-page-bottom + hr {
     margin-top: 0px;
 }
 .btn-group-item {
@@ -6864,6 +6864,9 @@ button.close {
 }
 .glyphicon-small {
     font-size: 15px;
+}
+.dd-task {
+    margin-bottom:10px;
 }
 #container-expandable {
     max-width: 320px;
