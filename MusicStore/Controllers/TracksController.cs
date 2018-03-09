@@ -7,12 +7,13 @@ using Microsoft.EntityFrameworkCore;
 using MusicStore.Data;
 using MusicStore.Models;
 
-
 namespace MusicStore.Controllers
 {
     public class TracksController : Controller
     {
         private readonly MusicStoreContext _context;
+        private readonly int MIN_PAGE_SIZE = 5;
+        private readonly int DEFAULT_PAGE_SIZE = 10;
 
         public TracksController(MusicStoreContext context)
         {
@@ -20,17 +21,30 @@ namespace MusicStore.Controllers
         }
 
         // GET: Tracks
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentSearch, int? page, int? pageSize)
         {
             IQueryable<Track> tracks = _context.Tracks
                 .Include(t => t.Album)
                     .ThenInclude(a => a.Artist);
+
+            //Perform search
+            if (!String.IsNullOrEmpty(searchString))    //first search request
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentSearch;
+            }
 
             if (!String.IsNullOrEmpty(searchString))
             {
                 tracks = tracks.Where(t => t.Title.Contains(searchString));
             }
 
+            ViewData["CurrentSearch"] = searchString;
+
+            //Perform sort
             if (!String.IsNullOrEmpty(sortOrder))
             {
                 switch (sortOrder)
@@ -58,8 +72,17 @@ namespace MusicStore.Controllers
                 }
             }
 
-            tracks.AsNoTracking();
-            return View(await tracks.ToListAsync());
+            ViewData["CurrentSort"] = sortOrder;
+
+            if (pageSize == null || pageSize < MIN_PAGE_SIZE)
+            {
+                pageSize = DEFAULT_PAGE_SIZE;
+                page = 1;
+            }
+
+            ViewData["CurrentPageSize"] = pageSize;
+
+            return View(await PaginatedList<Track>.CreateAsync(tracks.AsNoTracking(), page ?? 1, pageSize ?? DEFAULT_PAGE_SIZE));
         }
 
         // GET: Tracks/Details/5
