@@ -6815,6 +6815,7 @@ button.close {
     border: none;
     outline: none;
 }
+
 .table-bottom-bordered > tbody > tr:last-child {
     border-bottom: 1px solid #ddd;
 }
@@ -6863,5 +6864,11 @@ button.close {
 }
 .glyphicon-small {
     font-size: 15px;
+}
+#container-expandable {
+    max-width: 320px;
+}
+#container-expandable-focus {
+    max-width: 480px;
 }
 /*# sourceMappingURL=bootstrap.css.map */

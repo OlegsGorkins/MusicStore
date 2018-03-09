@@ -20,12 +20,67 @@ namespace MusicStore.Controllers
         }
 
         // GET: Albums
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentSearch, int? page, int? pageSize)
         {
-            var musicStoreContext = _context.Albums
-                .Include(a => a.Artist)
-                .AsNoTracking();
-            return View(await musicStoreContext.ToListAsync());
+            IQueryable<Album> albums = _context.Albums.Include(a => a.Artist);
+
+            //Perform search
+            if (!String.IsNullOrEmpty(searchString))    //first search request
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentSearch;
+            }
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                albums = albums.Where(t => t.Title.Contains(searchString));
+            }
+
+            ViewData["CurrentSearch"] = searchString;
+
+            //Perform sort
+            if (!String.IsNullOrEmpty(sortOrder))
+            {
+                switch (sortOrder)
+                {
+                    case "titles_asc":
+                        albums = albums.OrderBy(a => a.Title);
+                        break;
+                    case "titles_desc":
+                        albums = albums.OrderByDescending(a => a.Title);
+                        break;
+                    case "artists_asc":
+                        albums = albums.OrderBy(a => a.Artist.Name);
+                        break;
+                    case "artists_desc":
+                        albums = albums.OrderByDescending(a => a.Artist.Name);
+                        break;
+                    case "release_asc":
+                        albums = albums.OrderBy(a => a.ReleaseDate);
+                        break;
+                    case "release_desc":
+                        albums = albums.OrderByDescending(a => a.ReleaseDate);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            ViewData["CurrentSort"] = sortOrder;
+
+            //Set page size
+            if (pageSize == null || pageSize < DefaultValues.PageSizeMin)
+            {
+                pageSize = DefaultValues.PageSize;
+                page = 1;
+            }
+
+            ViewData["CurrentPageSize"] = pageSize;
+
+            return View(await PaginatedList<Album>.CreateAsync(albums.AsNoTracking(), page ?? 1, pageSize ?? DefaultValues.PageSize));
         }
 
         // GET: Albums/Details/5

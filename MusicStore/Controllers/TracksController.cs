@@ -12,8 +12,6 @@ namespace MusicStore.Controllers
     public class TracksController : Controller
     {
         private readonly MusicStoreContext _context;
-        private readonly int MIN_PAGE_SIZE = 5;
-        private readonly int DEFAULT_PAGE_SIZE = 10;
 
         public TracksController(MusicStoreContext context)
         {
@@ -74,15 +72,16 @@ namespace MusicStore.Controllers
 
             ViewData["CurrentSort"] = sortOrder;
 
-            if (pageSize == null || pageSize < MIN_PAGE_SIZE)
+            //Set page size
+            if (pageSize == null || pageSize < DefaultValues.PageSizeMin)
             {
-                pageSize = DEFAULT_PAGE_SIZE;
+                pageSize = DefaultValues.PageSize;
                 page = 1;
             }
 
             ViewData["CurrentPageSize"] = pageSize;
 
-            return View(await PaginatedList<Track>.CreateAsync(tracks.AsNoTracking(), page ?? 1, pageSize ?? DEFAULT_PAGE_SIZE));
+            return View(await PaginatedList<Track>.CreateAsync(tracks.AsNoTracking(), page ?? 1, pageSize ?? DefaultValues.PageSize));
         }
 
         // GET: Tracks/Details/5
