@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -21,11 +20,55 @@ namespace MusicStore.Controllers
         }
 
         // GET: Artists
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentSearch, int? page, int? pageSize)
         {
-            var musicStoreContext = _context.Artists
-                .AsNoTracking();
-            return View(await musicStoreContext.ToListAsync());
+            IQueryable<Artist> artists = _context.Artists;
+
+            //Perform search
+            if (!String.IsNullOrEmpty(searchString))    //first search request
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentSearch;
+            }
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                artists = artists.Where(a => a.Name.Contains(searchString));
+            }
+
+            ViewData["CurrentSearch"] = searchString;
+
+            //Perform sort
+            if (!String.IsNullOrEmpty(sortOrder))
+            {
+                switch (sortOrder)
+                {
+                    case "name_asc":
+                        artists = artists.OrderBy(a => a.Name);
+                        break;
+                    case "name_desc":
+                        artists = artists.OrderByDescending(a => a.Name);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            ViewData["CurrentSort"] = sortOrder;
+
+            //Set page size
+            if (pageSize == null || pageSize < DefaultValues.PageSizeMin)
+            {
+                pageSize = DefaultValues.PageSize;
+                page = 1;
+            }
+
+            ViewData["CurrentPageSize"] = pageSize;
+
+            return View(await PaginatedList<Artist>.CreateAsync(artists.AsNoTracking(), page ?? 1, pageSize ?? DefaultValues.PageSize));
         }
 
         // GET: Artists/Details/5

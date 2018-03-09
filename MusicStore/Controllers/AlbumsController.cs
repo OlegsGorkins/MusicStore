@@ -36,7 +36,7 @@ namespace MusicStore.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                albums = albums.Where(t => t.Title.Contains(searchString));
+                albums = albums.Where(a => a.Title.Contains(searchString));
             }
 
             ViewData["CurrentSearch"] = searchString;

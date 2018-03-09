@@ -1,6 +1,6 @@
 ﻿@using MusicStore.Data
 @using MusicStore.Models
-@model IEnumerable<MusicStore.Models.Album>
+@model IEnumerable<Album>
 
 @{
     ViewData["Title"] = "Albums";
@@ -41,19 +41,19 @@
                         <a href="@Url.Action("Index",
                                         new { sortOrder = ViewBag.CurrentSort,
                                             currentSearch = ViewBag.CurrentSearch,
-                                            pageSize = 10 } )">10 tracks on page</a>
+                                            pageSize = 10 } )">10 albums on page</a>
                     </li>
                     <li>
                         <a href="@Url.Action("Index",
                                         new { sortOrder = ViewBag.CurrentSort,
                                             currentSearch = ViewBag.CurrentSearch,
-                                            pageSize = 15 } )">15 tracks on page</a>
+                                            pageSize = 15 } )">15 albums on page</a>
                     </li>
                     <li>
                         <a href="@Url.Action("Index",
                                         new { sortOrder = ViewBag.CurrentSort,
                                             currentSearch = ViewBag.CurrentSearch,
-                                            pageSize = 25 } )">25 tracks on page</a>
+                                            pageSize = 25 } )">25 albums on page</a>
                     </li>
                 </ul>
                 <button type="button" class="btn btn-default" style="border-bottom-right-radius:unset"

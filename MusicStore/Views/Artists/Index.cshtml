@@ -1,33 +1,139 @@
-﻿@model IEnumerable<MusicStore.Models.Artist>
+﻿@using MusicStore.Data
+@using MusicStore.Models
+@model IEnumerable<Artist>
 
 @{
     ViewData["Title"] = "Artists";
+    PaginatedList<Artist> PaginatedModel = Model as PaginatedList<Artist>;
+    var previousDisabled = PaginatedModel.HasPreviousPage ? "" : "disabled";
+    var nextDisabled = PaginatedModel.HasNextPage ? "" : "disabled";
 }
 
-<h2>Artists | <button class="btn btn-default" onclick="location.href='@Url.Action("Create")'">Add new</button></h2>
-<table class="table">
+<div class="container-flex" style="align-items:center; margin-top:10px">
+    <div class="container-flex-item-left" style="min-width:unset">
+        <h2 style="margin:unset">@ViewData["Title"]</h2>
+    </div>
+    <div id="container-expandable" class="container-flex-item-push-right" style="text-align:right">
+        <form asp-action="Index" method="get" class="input-group input-group-expandable">
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default" style="border-bottom-left-radius:unset"
+                        aria-label="Add new track" onclick="location.href='@Url.Action("Create")'">
+                    Add new
+                </button>
+            </div>
+            <input type="text" class="form-control" name="searchString"
+                   placeholder="Search..." value="@ViewBag.CurrentSearch"
+                   onfocus="ChangeID('container-expandable', 'container-expandable-focus')"
+                   onfocusout="ChangeID('container-expandable-focus', 'container-expandable')" />
+            <div class="input-group-btn">
+                <button type="submit" class="btn btn-default" aria-label="Search">
+                    <span class="glyphicon glyphicon-small glyphicon-search" aria-hidden="true" />
+                </button>
+                <button type="button" class="btn btn-default" aria-label="Back" onclick="GoBack()">
+                    <span class="glyphicon glyphicon-small glyphicon-chevron-left" aria-hidden="true" />
+                </button>
+                <button type="button" class="btn btn-default" style="border-radius:unset"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Page size">
+                    <span class="glyphicon glyphicon-small glyphicon-th" aria-hidden="true" />
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="@Url.Action("Index",
+                                        new { sortOrder = ViewBag.CurrentSort,
+                                            currentSearch = ViewBag.CurrentSearch,
+                                            pageSize = 10 } )">10 artists on page</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index",
+                                        new { sortOrder = ViewBag.CurrentSort,
+                                            currentSearch = ViewBag.CurrentSearch,
+                                            pageSize = 15 } )">15 artists on page</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index",
+                                        new { sortOrder = ViewBag.CurrentSort,
+                                            currentSearch = ViewBag.CurrentSearch,
+                                            pageSize = 25 } )">25 artists on page</a>
+                    </li>
+                </ul>
+                <button type="button" class="btn btn-default" style="border-bottom-right-radius:unset"
+                        aria-label="Tracks list" onclick="location.href='@Url.Action("Index")'">
+                    <span class="glyphicon glyphicon-small glyphicon-th-list" aria-hidden="true" />
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<hr class="hr-title" />
+<table class="table" style="margin:unset">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
+            <th>
+                <span class="header-sortable-th">@Html.DisplayNameFor(model => model.Name)</span>
+                <button class="btn-link-glyphicon" aria-label="Sort ascending"
+                        onclick="location.href='@Url.Action("Index",
+                                                new { sortOrder = "name_asc",
+                                                    currentSearch = ViewBag.CurrentSearch,
+                                                    pageSize = ViewBag.CurrentPageSize })'">
+                    <span class="glyphicon glyphicon-small glyphicon-triangle-bottom " aria-hidden="true" />
+                </button>
+                <button class="btn-link-glyphicon" aria-label="Sort descending"
+                        onclick="location.href='@Url.Action("Index",
+                                                new { sortOrder = "name_desc",
+                                                    currentSearch = ViewBag.CurrentSearch,
+                                                    pageSize = ViewBag.CurrentPageSize })'">
+                    <span class="glyphicon glyphicon-small glyphicon-triangle-top" aria-hidden="true" />
+                </button>
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td style="text-align:right">
-                <div class="btn-group">
-                    <button class="btn btn-default btn-xs" onclick="location.href='@Url.Action("Edit", new { id = item.ID })'">Edit</button>
-                    <button class="btn btn-default btn-xs" onclick="location.href='@Url.Action("Details", new { id = item.ID })'">Details</button>
-                    <button class="btn btn-default btn-xs" onclick="location.href='@Url.Action("Delete", new { id = item.ID })'">Delete</button>
-                </div>
-            </td>
-        </tr>
-    }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td style="text-align:right">
+                    <div class="btn-group">
+                        <button class="btn btn-default btn-xs"
+                                onclick="location.href='@Url.Action("Edit", new { id = item.ID })'">
+                            Edit
+                        </button>
+                        <button class="btn btn-default btn-xs"
+                                onclick="location.href='@Url.Action("Details", new { id = item.ID })'">
+                            Details
+                        </button>
+                        <button class="btn btn-default btn-xs"
+                                onclick="location.href='@Url.Action("Delete", new { id = item.ID })'">
+                            Delete
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<hr class="hr-title" />
+<div class="container-pagination text-center">
+    <div class="btn-group" role="group" style="">
+        <button type="button" class="btn btn-default" aria-label="Previous" @previousDisabled
+                onclick="location.href='@Url.Action("Index",
+                                        new { sortOrder = ViewBag.CurrentSort,
+                                            currentSearch = ViewBag.CurrentSearch,
+                                            pageSize = ViewBag.CurrentPageSize,
+                                            page = PaginatedModel.PageIndex - 1 } )'">
+            <span aria-hidden="true">&laquo;</span>
+        </button>
+        <div class="btn-group-item btn-group-item-center">@PaginatedModel.PageIndex/@PaginatedModel.TotalPages</div>
+        <button type="button" class="btn btn-default" aria-label="Next" @nextDisabled
+                onclick="location.href='@Url.Action("Index",
+                                        new { sortOrder = ViewBag.CurrentSort,
+                                            currentSearch = ViewBag.CurrentSearch,
+                                            pageSize = ViewBag.CurrentPageSize,
+                                            page = PaginatedModel.PageIndex + 1 } )'">
+            <span aria-hidden="true">&raquo;</span>
+        </button>
+    </div>
+</div>
