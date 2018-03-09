@@ -1,17 +1,57 @@
 ﻿@{
     ViewData["Title"] = "Contact";
 }
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+<div style="margin-top:10px">
+    <h2 style="margin:unset">@ViewData["Title"]</h2>
+</div>
+<hr class="hr-title" />
+<div class="container-page-bottom">
+    <dl class="dl-horizontal" style="margin:unset;">
+        <dt>
+            <span class="glyphicon glyphicon-user" aria-hidden="true" />
+        </dt>
+        <dd>
+            Olegs Gorkins
+        </dd>
+        <dt style="padding-right:1px">
+            <a class="btn-link-glyphicon" href="https://goo.gl/maps/mu9CVFHmAwx" target="_blank">
+                <span class="glyphicon glyphicon-map-marker" aria-hidden="true" />
+            </a>
+        </dt>
+        <dd>
+            Imperatora 3-63, Daugavpils, Latvia
+        </dd>
+        <dt>
+            <a class="btn-link-glyphicon" onclick="CopyToClipboard('mail')" data-toggle="modal" data-target="#modalWindow">
+                <span class="glyphicon glyphicon-envelope" aria-hidden="true" />
+            </a>
+        </dt>
+        <dd>
+            <span id="mail">olegs.gorkins@gmail.com</span>
+        </dd>
+        <dt>
+            <span class="glyphicon glyphicon-phone" aria-hidden="true" />
+        </dt>
+        <dd>
+            +371 296 99 287
+        </dd>
+    </dl>
+</div>
+<div class="modal fade" id="modalWindow" role="dialog">
+    <div class="modal-dialog" style="width:320px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 style="margin:unset">Notification</h4>
+            </div>
+            <div class="modal-body">
+                <p style="margin:unset">Mail adress has been copied to clipboard</p>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
 
-<address>
-    <strong>Support:</strong> <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+
