@@ -16,6 +16,7 @@ namespace MusicStore.Models
         public string Title { get; set; }
         [Display(Name = "Release Date")]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString ="{0:dd/MM/yyyy}")]
         public DateTime ReleaseDate { get; set; }
 
         public Artist Artist { get; set; }
